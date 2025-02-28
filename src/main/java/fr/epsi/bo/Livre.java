@@ -1,16 +1,24 @@
 package fr.epsi.bo;
 
 import jakarta.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "LIVRE")
-public class Livre {
+public class Livre implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID")
     private Integer id;
+    @Column(name = "TITRE")
     private String titre;
+    @Column(name = "AUTEUR")
     private String auteur;
+
+    @ManyToMany(mappedBy = "livres")
+    private Set<Emprunt> emprunts;
 
     // constructor
     public Livre() {
@@ -40,6 +48,14 @@ public class Livre {
         this.auteur = auteur;
     }
 
+    public Set<Emprunt> getEmprunts() {
+        return emprunts;
+    }
+
+    public void setEmprunts(Set<Emprunt> emprunts) {
+        this.emprunts = emprunts;
+    }
+
     @Override
     public String toString() {
         return "Livre{" +
@@ -48,6 +64,5 @@ public class Livre {
                 ", auteur='" + auteur + '\'' +
                 '}';
     }
-
 
 }
